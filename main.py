@@ -1,6 +1,5 @@
 import config
 import curses
-from curses import wrapper
 import serial
 from serial.tools import list_ports
 
@@ -93,4 +92,4 @@ def main(stdscr):
 
 
 if __name__ == '__main__':
-    wrapper(main)
+    curses.wrapper(main)

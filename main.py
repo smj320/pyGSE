@@ -1,7 +1,34 @@
+from datetime import datetime
 import config
 import curses
+import mysql.connector as mydb
 import serial
 from serial.tools import list_ports
+
+
+def write_db(dbconfig, values):
+    """ DBに書き込む.DBの型はdatetime(6)でmicro secまで指定する """
+    # 接続と実行
+    conn = mydb.connect(**dbconfig)
+    if not conn.is_connected():
+        raise Exception("MySQLサーバへの接続に失敗しました")
+
+    conn.cmd_query('START TRANSACTION')
+
+    # 骨になるレコードを書き込む
+    dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+    cmd = "INSERT INTO record (TS) value ('%s')" % dt
+    cur = conn.cursor()
+    cur.execute(cmd)
+
+    # TSをキーにして追加
+    for v in values:
+        cmd = "UPDATE record set %s=%s where TS='%s'" % (v, values[v], dt)
+        cur.execute(cmd)
+
+    conn.commit()
+    cur.close()
+    conn.close()
 
 
 def decode(elements, fifo):
@@ -20,7 +47,6 @@ def decode(elements, fifo):
             else:
                 vv = int.from_bytes(datum, byteorder='little', signed=True)
         values[e['label']] = vv
-
     return values
 
 
@@ -46,6 +72,7 @@ def main(stdscr):
     # config.pyからテレメのビット位置、表示場所のデータを取得
     elm = config.get_element()
     fmt = config.get_fmt()
+    dbconfig = config.get_dbconfig()
 
     # USBポートを取得
     usb_ports = get_usb_ports()
@@ -64,23 +91,31 @@ def main(stdscr):
     stdscr.keypad(True)
     stdscr.nodelay(True)
 
-    # 受信開始
+    """
+    受信開始
+    """
     while True:
         c = reader.read()
+
         # FIFOにデータを詰める
         fifo.append(int.from_bytes(c))
         fifo.pop(0)
+
         # 先頭がフレームシンクに一致していれば同期完了
         if [fifo[0], fifo[1], fifo[2], fifo[3]] == [0xeb, 0x90, 0x38, 0xC7]:
-            # タイトル
-            stdscr.addstr(2, 4, "DRILL MONITOR (Exit: ESC key)")
-            # データ
+
+            # データ分解
             values = decode(elm, fifo)
+            write_db(dbconfig, values)
+
+            # タイトル描画
+            stdscr.addstr(2, 4, "DRILL MONITOR (Exit: ESC key)")
             display_data(stdscr, values, fmt)
-            # 更新
+
+            # 画面更新とキー入力監視
             stdscr.refresh()
             rtc = stdscr.getch()
-            if rtc == 0x1b:     # ESC
+            if rtc == 0x1b:  # ESC
                 break
 
     # 終了処理

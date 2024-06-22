@@ -1,3 +1,13 @@
+def get_dbconfig():
+    return {
+        "host": "localhost",
+        "port": 3306,
+        "user": "root",
+        "password": "pass",
+        "database": "df3_gse"
+    }
+
+
 def get_element():
     return [
         {"label": "FS", "pos": 0, "len": 4},
@@ -30,15 +40,15 @@ def get_element():
         {"label": "ROT_X", "pos": 44, "len": 2},
         {"label": "ROT_Y", "pos": 46, "len": 2},
         {"label": "ROT_Z", "pos": 48, "len": 2},
-        {"label": "MAX_X", "pos": 50, "len": 2},
-        {"label": "MAX_Y", "pos": 52, "len": 2},
-        {"label": "MAX_Z", "pos": 54, "len": 2},
+        {"label": "MAG_X", "pos": 50, "len": 2},
+        {"label": "MAG_Y", "pos": 52, "len": 2},
+        {"label": "MAG_Z", "pos": 54, "len": 2},
         {"label": "CSUM", "pos": 79, "len": 1}
     ]
 
 
 def get_fmt():
-    ll = [4,28,53]
+    ll = [4, 28, 53]
     return [
         {"label": "FS", "a": 1, "b": 0, "x": 4, "y": ll[0], "fmt": "FS        %08X"},
         {"label": "TI", "a": 1, "b": 0, "x": 5, "y": ll[0], "fmt": "TI        %08d"},
@@ -78,9 +88,9 @@ def get_fmt():
         {"label": "ROT_Y", "a": 0.01, "b": 0, "x": 13, "y": ll[2], "fmt": "ROT_Y   %7.2f [rad/s]"},
         {"label": "ROT_Z", "a": 0.01, "b": 0, "x": 14, "y": ll[2], "fmt": "ROT_Z   %7.2f [rad/s]"},
         # x/24.0
-        {"label": "MAX_X", "a": 0.0417, "b": 0, "x": 16, "y": ll[2], "fmt": "MAG_X   %7.2f [mT]"},
-        {"label": "MAX_Y", "a": 0.0417, "b": 0, "x": 17, "y": ll[2], "fmt": "MAG_Y   %7.2f [mT]"},
-        {"label": "MAX_Z", "a": 0.0417, "b": 0, "x": 18, "y": ll[2], "fmt": "MAG_Z   %7.2f [mT]"},
+        {"label": "MAG_X", "a": 0.0417, "b": 0, "x": 16, "y": ll[2], "fmt": "MAG_X   %7.2f [mT]"},
+        {"label": "MAG_Y", "a": 0.0417, "b": 0, "x": 17, "y": ll[2], "fmt": "MAG_Y   %7.2f [mT]"},
+        {"label": "MAG_Z", "a": 0.0417, "b": 0, "x": 18, "y": ll[2], "fmt": "MAG_Z   %7.2f [mT]"},
         # Check sum
         {"label": "CSUM", "a": 1, "b": 0, "x": 20, "y": ll[0], "fmt": "CSUM        %02X [hex]"}
     ]

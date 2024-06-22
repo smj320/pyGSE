@@ -1,0 +1,6 @@
+attrdict==2.0.1
+getConfig==0.0.3
+mysql-connector-python==8.4.0
+numpy==2.0.0
+pyserial==3.5
+six==1.16.0

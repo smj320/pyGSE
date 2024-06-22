@@ -2,7 +2,7 @@ use df3_gse;
 create table record
 (
     ID      integer auto_increment primary key,
-    TS      timestamp(6) default CURRENT_TIMESTAMP(6),
+    TS      datetime(6),
     FS      bigint,
     TI      integer,
     STAT    tinyint,

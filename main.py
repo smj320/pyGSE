@@ -87,7 +87,6 @@ def main(stdscr):
     # 画面準備
     curses.noecho()
     curses.cbreak()
-    stdscr = curses.initscr()
     stdscr.keypad(True)
     stdscr.nodelay(True)
 

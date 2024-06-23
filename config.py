@@ -57,7 +57,7 @@ def get_fmt():
         {"label": "PDU_V", "a": 1, "b": 0, "x": 8, "y": ll[0], "fmt": "PDU_V  %7.2f [V]"},
         {"label": "DMY1", "a": 1, "b": 0, "x": 9, "y": ll[0], "fmt": "DMY1        %02d [dec]"},
         {"label": "BAT_V", "a": 1, "b": 0, "x": 10, "y": ll[0], "fmt": "BAT_V  %7.2f [V]"},
-        {"label": "BAT_T", "a": 1, "b": 0, "x": 11, "y": ll[0], "fmt": "BAT_T  %7.2f [C]"},
+        {"label": "BAT_T", "a": 0.8, "b": 0.6, "x": 11, "y": ll[0], "fmt": "BAT_T  %7.2f [C]"},
         # x*1
         {"label": "SYS_T", "a": 1, "b": 0, "x": 13, "y": ll[0], "fmt": "SYS_T  %7.2f [C]"},
         {"label": "SYS_H", "a": 1, "b": 0, "x": 14, "y": ll[0], "fmt": "SYS_H  %7.2f [%%]"},
@@ -66,14 +66,14 @@ def get_fmt():
         {"label": "GND_P", "a": 1, "b": 0, "x": 4, "y": ll[1], "fmt": "GND_P  %7.2f [atm]"},
         {"label": "MOT_V", "a": 1, "b": 0, "x": 5, "y": ll[1], "fmt": "MOT_V  %7.2f [V]"},
         {"label": "MOT_ADC", "a": 1, "b": 0, "x": 6, "y": ll[1], "fmt": "MOT_ADC     %02d [dec]"},
-        {"label": "MOT_T", "a": 1, "b": 0, "x": 7, "y": ll[1], "fmt": "MOT_T  %7.2f [C]"},
-        {"label": "GEA_T", "a": 1, "b": 0, "x": 8, "y": ll[1], "fmt": "GEA_T  %7.2f [C]"},
+        {"label": "MOT_T", "a": 0.8, "b": 0.6, "x": 7, "y": ll[1], "fmt": "MOT_T  %7.2f [C]"},
+        {"label": "GEA_T", "a": 0.8, "b": 0.6, "x": 8, "y": ll[1], "fmt": "GEA_T  %7.2f [C]"},
         {"label": "MOT_R", "a": 1, "b": 0, "x": 9, "y": ll[1], "fmt": "MOT_R  %7.2f [rpm]"},
         {"label": "DMY3", "a": 1, "b": 0, "x": 10, "y": ll[1], "fmt": "DMY3        %02X [hex]"},
         #
-        {"label": "LIQ1_T", "a": 1, "b": 0, "x": 12, "y": ll[1], "fmt": "LIQ1_T  %7.2f [C]"},
+        {"label": "LIQ1_T", "a": 0.8, "b": 0.6, "x": 12, "y": ll[1], "fmt": "LIQ1_T  %7.2f [C]"},
         {"label": "LIQ1_P", "a": 1, "b": 0, "x": 13, "y": ll[1], "fmt": "LIQ1_P  %7.2f [atm]"},
-        {"label": "LIQ2_T", "a": 1, "b": 0, "x": 14, "y": ll[1], "fmt": "LIQ2_T  %7.2f [C]"},
+        {"label": "LIQ2_T", "a": 0.8, "b": 0.6, "x": 14, "y": ll[1], "fmt": "LIQ2_T  %7.2f [C]"},
         {"label": "BOA_D", "a": 1, "b": 0, "x": 15, "y": ll[1], "fmt": "BOA_D   %7.2f [mm]"},
         # x/100
         {"label": "GRA_X", "a": 0.01, "b": 0, "x": 4, "y": ll[2], "fmt": "GRA_X   %7.2f [m/s^2]"},

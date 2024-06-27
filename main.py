@@ -13,19 +13,21 @@ def write_db(dbconfig, values):
     if not conn.is_connected():
         raise Exception("MySQLサーバへの接続に失敗しました")
 
+    # トランザクションスタート
     conn.cmd_query('START TRANSACTION')
 
     # 骨になるレコードを書き込む
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
-    cmd = "INSERT INTO record (TS) value ('%s')" % dt
+    cmd = "INSERT INTO record_temp_test (TS) value ('%s')" % dt
     cur = conn.cursor()
     cur.execute(cmd)
 
     # TSをキーにして追加
     for v in values:
-        cmd = "UPDATE record set %s=%s where TS='%s'" % (v, values[v], dt)
+        cmd = "UPDATE record_temp_test set %s=%s where TS='%s'" % (v, values[v], dt)
         cur.execute(cmd)
 
+    # トランザクション終了
     conn.commit()
     cur.close()
     conn.close()
@@ -52,6 +54,9 @@ def decode(elements, fifo):
 
 def display_data(stdscr, values, fmt):
     """ decodeで分解したfifoの内容を表示する """
+    stdscr.clear()
+    # タイトル描画
+    stdscr.addstr(2, 4, "DRILL MONITOR (Exit: ESC key)")
     for f in fmt:
         v = values[f['label']] * f['a'] + f['b']
         stdscr.addstr(f['x'], f['y'], f['fmt'] % v)
@@ -107,8 +112,7 @@ def main(stdscr):
             values = decode(elm, fifo)
             write_db(dbconfig, values)
 
-            # タイトル描画
-            stdscr.addstr(2, 4, "DRILL MONITOR (Exit: ESC key)")
+            # データ表示
             display_data(stdscr, values, fmt)
 
             # 画面更新とキー入力監視

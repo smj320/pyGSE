@@ -4,7 +4,7 @@ create table record
     ID      integer auto_increment primary key,
     TS      datetime(6),
     FS      bigint,
-    TI      integer,
+    TI      bigint,
     STAT    tinyint,
     PDU_V   integer,
     DMY1    tinyint,

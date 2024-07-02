@@ -22,7 +22,7 @@ def get_element():
         {"label": "SYS_P", "pos": 15, "len": 1},
         {"label": "GND_P", "pos": 16, "len": 2},
         {"label": "MOT_V", "pos": 18, "len": 1},
-        {"label": "MOT_ADC", "pos": 19, "len": 1},
+        {"label": "DMY2", "pos": 19, "len": 1},
         {"label": "MOT_T", "pos": 20, "len": 1},
         {"label": "GEA_T", "pos": 21, "len": 1},
         {"label": "MOT_R", "pos": 22, "len": 1},
@@ -65,7 +65,7 @@ def get_fmt():
         #
         {"label": "GND_P", "a": 1, "b": 0, "x": 4, "y": ll[1], "fmt": "GND_P  %7.2f [atm]"},
         {"label": "MOT_V", "a": 1, "b": 0, "x": 5, "y": ll[1], "fmt": "MOT_V  %7.2f [V]"},
-        {"label": "MOT_ADC", "a": 1, "b": 0, "x": 6, "y": ll[1], "fmt": "MOT_ADC     %02d [dec]"},
+        {"label": "DMY2", "a": 1, "b": 0, "x": 6, "y": ll[1], "fmt": "MOT_ADC     %02d [dec]"},
         {"label": "MOT_T", "a": 0.8, "b": 0.6, "x": 7, "y": ll[1], "fmt": "MOT_T  %7.2f [C]"},
         {"label": "GEA_T", "a": 0.8, "b": 0.6, "x": 8, "y": ll[1], "fmt": "GEA_T  %7.2f [C]"},
         {"label": "MOT_R", "a": 1, "b": 0, "x": 9, "y": ll[1], "fmt": "MOT_R  %7.2f [rpm]"},

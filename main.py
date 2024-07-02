@@ -13,22 +13,21 @@ def write_db(dbconfig, values):
     if not conn.is_connected():
         raise Exception("MySQLサーバへの接続に失敗しました")
 
-    # トランザクションスタート
-    conn.cmd_query('START TRANSACTION')
-
-    # 骨になるレコードを書き込む
+    # 時刻取得
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
-    cmd = "INSERT INTO record_temp_test (TS) value ('%s')" % dt
+
+    # SQL文の生成
+    col = "TS"
+    val = "'%s'" % dt
+    for elm in values:
+        col += ",%s"% elm
+        val += ",%d" % values[elm]
+    sql = "INSERT INTO record (%s) VALUES (%s)" % (col, val)
+
     cur = conn.cursor()
-    cur.execute(cmd)
-
-    # TSをキーにして追加
-    for v in values:
-        cmd = "UPDATE record_temp_test set %s=%s where TS='%s'" % (v, values[v], dt)
-        cur.execute(cmd)
-
-    # トランザクション終了
-    conn.commit()
+    cur.execute("START TRANSACTION;")
+    cur.execute(sql)
+    cur.execute("COMMIT;")
     cur.close()
     conn.close()
 
@@ -99,15 +98,17 @@ def main(stdscr):
     受信開始
     """
     while True:
-        c = reader.read()
+        c = reader.read(1)
+        # print("%02X" % int.from_bytes(c), end="")
 
         # FIFOにデータを詰める
-        fifo.append(int.from_bytes(c))
-        fifo.pop(0)
+        for i in range(79):
+            fifo[i] = fifo[i + 1]
+
+        fifo[79] = int.from_bytes(c)
 
         # 先頭がフレームシンクに一致していれば同期完了
-        if [fifo[0], fifo[1], fifo[2], fifo[3]] == [0xeb, 0x90, 0x38, 0xC7]:
-
+        if fifo[0]==0xeb and fifo[1] == 0x90 and fifo[2] == 0x38 and fifo[3] ==0xC7:
             # データ分解
             values = decode(elm, fifo)
             write_db(dbconfig, values)
@@ -127,7 +128,6 @@ def main(stdscr):
     stdscr.nodelay(False)
     curses.echo()
     curses.endwin()
-
 
 if __name__ == '__main__':
     curses.wrapper(main)

@@ -4,6 +4,7 @@ import curses
 import mysql.connector as mydb
 import serial
 from serial.tools import list_ports
+import os
 
 
 def write_db(dbconfig, values):
@@ -62,6 +63,13 @@ def display_data(stdscr, values, fmt):
 
 
 def get_usb_ports():
+    """ 環境変数があれば優先 """
+    usb_ports = []
+    com = os.getenv("GSE_PORT")
+    if com is not None:
+        usb_ports.append(com)
+        return usb_ports
+
     """ Serialポートを探索して、usbserialを含むポートをリストで返す """
     ports = list(list_ports.comports())
     usb_ports = []
@@ -98,17 +106,15 @@ def main(stdscr):
     受信開始
     """
     while True:
-        c = reader.read(1)
-        # print("%02X" % int.from_bytes(c), end="")
+        c = reader.read()
 
         # FIFOにデータを詰める
-        for i in range(79):
-            fifo[i] = fifo[i + 1]
-
-        fifo[79] = int.from_bytes(c)
+        fifo.append(int.from_bytes(c))
+        fifo.pop(0)
 
         # 先頭がフレームシンクに一致していれば同期完了
-        if fifo[0]==0xeb and fifo[1] == 0x90 and fifo[2] == 0x38 and fifo[3] ==0xC7:
+        if [fifo[0], fifo[1], fifo[2], fifo[3]] == [0xeb, 0x90, 0x38, 0xC7]:
+
             # データ分解
             values = decode(elm, fifo)
             write_db(dbconfig, values)

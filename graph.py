@@ -36,8 +36,10 @@ def update(engine, fig, axs):
     t0, start, stop, query = get_time_range()
     axs[0, 0].set_xlim(start, stop)
     axs[1, 0].set_xlim(start, stop)
+    axs[2, 1].set_xlim(start, stop)
     axs[0, 1].set_xlim(start, stop)
     axs[1, 1].set_xlim(start, stop)
+    axs[2, 1].set_xlim(start, stop)
 
     # DB接続と解除
     sqlcmd = "select * from record where TS > '%s'" % start.strftime("%Y-%m-%d %H:%M:%S")

@@ -37,5 +37,8 @@ create table record
     MAG_X  integer,
     MAG_Y  integer,
     MAG_Z  integer,
+    BOA2_D  integer,
+    LIQ3_T  integer,
+    LIQ4_T  integer,
     CSUM   integer
 )

@@ -43,6 +43,9 @@ def get_element():
         {"label": "MAG_X", "pos": 50, "len": 2},
         {"label": "MAG_Y", "pos": 52, "len": 2},
         {"label": "MAG_Z", "pos": 54, "len": 2},
+        {"label": "BOA2_D", "pos": 56, "len": 2},
+        {"label": "LIQ3_T", "pos": 58, "len": 2},
+        {"label": "LIQ4_T", "pos": 60, "len": 2},
         {"label": "CSUM", "pos": 79, "len": 1}
     ]
 
@@ -63,13 +66,13 @@ def get_fmt():
         {"label": "SYS_H", "a": 1, "b": 0, "x": 14, "y": ll[0], "fmt": "SYS_H  %7.2f [%%]"},
         {"label": "SYS_P", "a": 1, "b": 0, "x": 15, "y": ll[0], "fmt": "SYS_P  %7.2f [atm]"},
         #
-        {"label": "GND_P", "a": 1, "b": 0, "x": 4, "y": ll[1], "fmt": "GND_P  %7.2f [atm]"},
-        {"label": "MOT_V", "a": 1, "b": 0, "x": 5, "y": ll[1], "fmt": "MOT_V  %7.2f [V]"},
-        {"label": "DMY2", "a": 1, "b": 0, "x": 6, "y": ll[1], "fmt": "MOT_ADC     %02d [dec]"},
-        {"label": "MOT_T", "a": 0.8, "b": 0.6, "x": 7, "y": ll[1], "fmt": "MOT_T  %7.2f [C]"},
-        {"label": "GEA_T", "a": 0.8, "b": 0.6, "x": 8, "y": ll[1], "fmt": "GEA_T  %7.2f [C]"},
-        {"label": "MOT_R", "a": 1, "b": 0, "x": 9, "y": ll[1], "fmt": "MOT_R  %7.2f [rpm]"},
-        {"label": "DMY3", "a": 1, "b": 0, "x": 10, "y": ll[1], "fmt": "DMY3        %02X [hex]"},
+        {"label": "GND_P", "a": 1, "b": 0, "x": 4, "y": ll[1], "fmt": "GND_P   %7.2f [atm]"},
+        {"label": "MOT_V", "a": 1, "b": 0, "x": 5, "y": ll[1], "fmt": "MOT_V   %7.2f [V]"},
+        {"label": "DMY2", "a": 1, "b": 0, "x": 6, "y": ll[1], "fmt": "DMY2         %02d [dec]"},
+        {"label": "MOT_T", "a": 0.8, "b": 0.6, "x": 7, "y": ll[1], "fmt": "MOT_T   %7.2f [C]"},
+        {"label": "GEA_T", "a": 0.8, "b": 0.6, "x": 8, "y": ll[1], "fmt": "GEA_T   %7.2f [C]"},
+        {"label": "MOT_R", "a": 1, "b": 0, "x": 9, "y": ll[1], "fmt": "MOT_R   %7.2f [rpm]"},
+        {"label": "DMY3", "a": 1, "b": 0, "x": 10, "y": ll[1], "fmt": "DMY3         %02X [hex]"},
         #
         {"label": "LIQ1_T", "a": 0.8, "b": 0.6, "x": 12, "y": ll[1], "fmt": "LIQ1_T  %7.2f [C]"},
         {"label": "LIQ1_P", "a": 1, "b": 0, "x": 13, "y": ll[1], "fmt": "LIQ1_P  %7.2f [atm]"},
@@ -91,6 +94,10 @@ def get_fmt():
         {"label": "MAG_X", "a": 0.0417, "b": 0, "x": 16, "y": ll[2], "fmt": "MAG_X   %7.2f [mT]"},
         {"label": "MAG_Y", "a": 0.0417, "b": 0, "x": 17, "y": ll[2], "fmt": "MAG_Y   %7.2f [mT]"},
         {"label": "MAG_Z", "a": 0.0417, "b": 0, "x": 18, "y": ll[2], "fmt": "MAG_Z   %7.2f [mT]"},
+        # 検層機用
+        {"label": "BOA2_D", "a": 1.0, "b": 0, "x": 16, "y": ll[1], "fmt": "BOA2_D  %7.2f [mT]"},
+        {"label": "LIQ3_T", "a": 1.0, "b": 0, "x": 17, "y": ll[1], "fmt": "LIQ3_T  %7.2f [mT]"},
+        {"label": "LIQ4_T", "a": 1.0, "b": 0, "x": 18, "y": ll[1], "fmt": "LIQ4_T  %7.2f [mT]"},
         # Check sum
         {"label": "CSUM", "a": 1, "b": 0, "x": 20, "y": ll[0], "fmt": "CSUM        %02X [hex]"}
     ]

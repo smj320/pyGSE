@@ -144,11 +144,11 @@ def main(stdscr):
     axs[1, 0].grid()
     axs[2, 0].set_title("Drill Status")
     axs[2, 0].xaxis.set_major_formatter(dates.DateFormatter('%m/%d\n%H:%M'))
-    axs[2, 0].set_ylim(-100, 100)
+    axs[2, 0].set_ylim(-50, 50)
     axs[2, 0].grid()
     axs[0, 1].set_title("Gravity")
     axs[0, 1].xaxis.set_major_formatter(dates.DateFormatter('%m/%d\n%H:%M'))
-    axs[0, 1].set_ylim(-100, 100)
+    axs[0, 1].set_ylim(-20, 20)
     axs[0, 1].grid()
     axs[1, 1].set_title("Rot")
     axs[1, 1].xaxis.set_major_formatter(dates.DateFormatter('%m/%d\n%H:%M'))
@@ -156,7 +156,7 @@ def main(stdscr):
     axs[1, 1].grid()
     axs[2, 1].set_title("GEO MAG")
     axs[2, 1].xaxis.set_major_formatter(dates.DateFormatter('%m/%d\n%H:%M'))
-    axs[2, 1].set_ylim(-100, 100)
+    axs[2, 1].set_ylim(-200, 200)
     axs[2, 1].grid()
 
     # データ描画

@@ -1,9 +1,9 @@
 def get_dbconfig():
     return {
-        "host": "localhost",
-        "port": 3306,
         "user": "root",
         "password": "pass",
+        "host": "localhost",
+        "port": 3306,
         "database": "df3_gse"
     }
 

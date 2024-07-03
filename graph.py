@@ -14,6 +14,8 @@ from matplotlib import dates
 from matplotlib import pyplot as plt
 # Curses
 import curses
+# Config
+import config
 
 
 def get_time_range():
@@ -30,7 +32,7 @@ def get_time_range():
     return t0, start, stop, cmd
 
 
-def update(engine, fig, axs):
+def update(engine, fig, axs, d_cfg):
     """ 描画の更新 """
     # 描画パラメータ取得
     t0, start, stop, query = get_time_range()
@@ -49,57 +51,57 @@ def update(engine, fig, axs):
     lines = []
     # プロット1 温度
     line = [
-        axs[0, 0].plot(df.TS, df.BAT_T * 0.6 + 0.8, ".", label="BAT_T", color='g'),
-        axs[0, 0].plot(df.TS, df.SYS_T * 1.0 + 0.0, ".", label="SYS_T", color='r'),
-        axs[0, 0].plot(df.TS, df.SYS_H * 1.0 + 0.0, ".", label="SYS_H", color='b'),
-        axs[0, 0].plot(df.TS, df.MOT_T * 0.6 + 0.8, ".", label="MOT_T", color='y'),
-        axs[0, 0].plot(df.TS, df.GEA_T * 0.6 + 0.8, ".", label="GEA_T", color='m'),
-        axs[0, 0].plot(df.TS, df.LIQ1_T * 0.6 + 0.8, ".", label="LIQ1_T", color='m'),
-        axs[0, 0].plot(df.TS, df.LIQ2_T * 0.6 + 0.8, ".", label="LIQ2_T", color='m')
+        axs[0, 0].plot(df.TS, df.BAT_T * d_cfg["BAT_T"][0] + d_cfg["BAT_T"][1], ".", label="BAT_T", color='g'),
+        axs[0, 0].plot(df.TS, df.SYS_T * d_cfg["SYS_T"][0] + d_cfg["SYS_T"][1], ".", label="SYS_T", color='r'),
+        axs[0, 0].plot(df.TS, df.SYS_H * d_cfg["SYS_H"][0] + d_cfg["SYS_H"][1], ".", label="SYS_H", color='b'),
+        axs[0, 0].plot(df.TS, df.MOT_T * d_cfg["MOT_T"][0] + d_cfg["MOT_T"][1], ".", label="MOT_T", color='y'),
+        axs[0, 0].plot(df.TS, df.GEA_T * d_cfg["GEA_T"][0] + d_cfg["GEA_T"][1], ".", label="GEA_T", color='m'),
+        axs[0, 0].plot(df.TS, df.LIQ1_T * d_cfg["LIQ1_T"][0] + d_cfg["LIQ1_T"][1], ".", label="LIQ1_T", color='m'),
+        axs[0, 0].plot(df.TS, df.LIQ2_T * d_cfg["LIQ2_T"][0] + d_cfg["LIQ2_T"][1], ".", label="LIQ2_T", color='m')
     ]
     axs[0, 0].legend(loc='lower left')
     lines.append(line)
 
     # プロット2 電力
     line = [
-        axs[1, 0].plot(df.TS, df.PDU_V * 0.6 + 0.8, ".", label="PDU_V", color='g'),
-        axs[1, 0].plot(df.TS, df.BAT_V * 1.0 + 0.0, ".", label="BAT_V", color='r'),
-        axs[1, 0].plot(df.TS, df.MOT_V * 1.0 + 0.0, ".", label="MOT_V", color='b')
+        axs[1, 0].plot(df.TS, df.PDU_V * d_cfg["PDU_V"][0] + d_cfg["PDU_V"][1], ".", label="PDU_V", color='g'),
+        axs[1, 0].plot(df.TS, df.BAT_V * d_cfg["BAT_V"][0] + d_cfg["BAT_V"][1], ".", label="BAT_V", color='r'),
+        axs[1, 0].plot(df.TS, df.MOT_V * d_cfg["MOT_V"][0] + d_cfg["MOT_V"][1], ".", label="MOT_V", color='b')
     ]
     axs[1, 0].legend(loc='lower left')
     lines.append(line)
 
     # プロット3 掘削ステータス
     line = [
-        axs[2, 0].plot(df.TS, df.MOT_R * 0.6 + 0.8, ".", label="MOT_R", color='g'),
-        axs[2, 0].plot(df.TS, df.GND_P * 1.0 + 0.0, ".", label="GND_P", color='r'),
+        axs[2, 0].plot(df.TS, df.MOT_R * d_cfg["MOT_R"][0] + d_cfg["MOT_R"][1], ".", label="MOT_R", color='g'),
+        axs[2, 0].plot(df.TS, df.GND_P * d_cfg["GND_P"][0] + d_cfg["GND_P"][1], ".", label="GND_P", color='r'),
     ]
     axs[2, 0].legend(loc='lower left')
     lines.append(line)
 
     # プロット4 重力
     line = [
-        axs[0, 1].plot(df.TS, df.GRA_X * 1.0 + 0.0, ".", label="GRA_X", color='g'),
-        axs[0, 1].plot(df.TS, df.GRA_Y * 1.0 + 0.0, ".", label="GRA_Y", color='r'),
-        axs[0, 1].plot(df.TS, df.GRA_Z * 1.0 + 0.0, ".", label="GRA_Z", color='b')
+        axs[0, 1].plot(df.TS, df.GRA_X * d_cfg["GRA_X"][0] + d_cfg["GRA_X"][1], ".", label="GRA_X", color='g'),
+        axs[0, 1].plot(df.TS, df.GRA_Y * d_cfg["GRA_Y"][0] + d_cfg["GRA_Y"][1], ".", label="GRA_Y", color='r'),
+        axs[0, 1].plot(df.TS, df.GRA_Z * d_cfg["GRA_Z"][0] + d_cfg["GRA_Z"][1],".", label="GRA_Z", color='b')
     ]
     axs[0, 1].legend(loc='lower left')
     lines.append(line)
 
     # プロット4 角速度
     line = [
-        axs[1, 1].plot(df.TS, df.ROT_X * 1.0 + 0.0, ".", label="ROT_X", color='g'),
-        axs[1, 1].plot(df.TS, df.ROT_Y * 1.0 + 0.0, ".", label="ROT_Y", color='r'),
-        axs[1, 1].plot(df.TS, df.ROT_Z * 1.0 + 0.0, ".", label="ROT_Z", color='b')
+        axs[1, 1].plot(df.TS, df.ROT_X * d_cfg["ROT_X"][0] + d_cfg["ROT_X"][1], ".", label="ROT_X", color='g'),
+        axs[1, 1].plot(df.TS, df.ROT_Y * d_cfg["ROT_Y"][0] + d_cfg["ROT_Y"][1], ".", label="ROT_Y", color='r'),
+        axs[1, 1].plot(df.TS, df.ROT_Z * d_cfg["ROT_Z"][0] + d_cfg["ROT_Z"][1], ".", label="ROT_Z", color='b')
     ]
     axs[1, 1].legend(loc='lower left')
     lines.append(line)
 
     # プロット4 地磁気
     line = [
-        axs[2, 1].plot(df.TS, df.MAG_X * 1.0 + 0.0, ".", label="MAG_X", color='g'),
-        axs[2, 1].plot(df.TS, df.MAG_Y * 1.0 + 0.0, ".", label="MAG_Y", color='r'),
-        axs[2, 1].plot(df.TS, df.MAG_Z * 1.0 + 0.0, ".", label="MAG_Z", color='b')
+        axs[2, 1].plot(df.TS, df.MAG_X * d_cfg["MAG_X"][0] + d_cfg["MAG_X"][1], ".", label="MAG_X", color='g'),
+        axs[2, 1].plot(df.TS, df.MAG_Y * d_cfg["MAG_Y"][0] + d_cfg["MAG_Y"][1], ".", label="MAG_Y", color='r'),
+        axs[2, 1].plot(df.TS, df.MAG_Z * d_cfg["MAG_Z"][0] + d_cfg["MAG_Z"][1], ".", label="MAG_Z", color='b')
     ]
     axs[2, 1].legend(loc='lower left')
     lines.append(line)
@@ -113,7 +115,9 @@ def update(engine, fig, axs):
 
 def main(stdscr):
     # DB接続と解除
-    url = f'mysql+pymysql://root:pass@localhost:3306/df3_gse'
+    d_cfg = config.get_fmt()
+    dbc = config.get_dbconfig()
+    url = f'mysql+pymysql://%s:%s@%s:%d/%s' % (dbc['user'], dbc['password'], dbc['host'], dbc['port'], dbc['database'])
     engine = create_engine(url, echo=False)
 
     # 画面準備
@@ -157,7 +161,7 @@ def main(stdscr):
 
     # データ描画
     while True:
-        update(engine, fig, axs)
+        update(engine, fig, axs, d_cfg)
         rtc = stdscr.getch()
         if rtc == 0x1b:  # ESC
             break

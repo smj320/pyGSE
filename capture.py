@@ -21,7 +21,7 @@ def write_db(dbconfig, values):
     col = "TS"
     val = "'%s'" % dt
     for elm in values:
-        col += ",%s"% elm
+        col += ",%s" % elm
         val += ",%d" % values[elm]
     sql = "INSERT INTO record (%s) VALUES (%s)" % (col, val)
 
@@ -37,29 +37,33 @@ def decode(elements, fifo):
     """ config.pyのelementに基づいて、FIFOの内容をデコードする """
     values = {}
     for e in elements:
-        datum = fifo[e['pos']:e['pos'] + e['len']]
-        if e['len'] == 4:
-            if e['label'] == "FS":
+        pst = elements[e][0]
+        len = elements[e][1]
+        pen = pst + len
+        datum = fifo[pst:pen]
+        if len == 4:
+            if e == "FS":
                 vv = int.from_bytes(datum, byteorder='big')
             else:  # TI
                 vv = int.from_bytes(datum, byteorder='little')
         else:  # 2byteでも1byteでも符号付き
-            if e['label'] == "CSUM":
+            if e == "CSUM":
                 vv = int.from_bytes(datum, byteorder='little')
             else:
                 vv = int.from_bytes(datum, byteorder='little', signed=True)
-        values[e['label']] = vv
+        values[e] = vv
     return values
 
 
-def display_data(stdscr, values, fmt):
+def display_data(stdscr, values, d_param):
     """ decodeで分解したfifoの内容を表示する """
     stdscr.clear()
     # タイトル描画
     stdscr.addstr(2, 4, "DRILL MONITOR (Exit: ESC key)")
-    for f in fmt:
-        v = values[f['label']] * f['a'] + f['b']
-        stdscr.addstr(f['x'], f['y'], f['fmt'] % v)
+    for f in d_param:
+        [a, b, x, y, fmt] = d_param[f]
+        v = values[f] if f == 'FS' or f == 'CSUM' else values[f] * a + b
+        stdscr.addstr(x, y, fmt % v)
 
 
 def get_usb_ports():
@@ -134,6 +138,7 @@ def main(stdscr):
     stdscr.nodelay(False)
     curses.echo()
     curses.endwin()
+
 
 if __name__ == '__main__':
     curses.wrapper(main)

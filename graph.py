@@ -36,7 +36,7 @@ def update(engine, fig, axs):
     t0, start, stop, query = get_time_range()
     axs[0, 0].set_xlim(start, stop)
     axs[1, 0].set_xlim(start, stop)
-    axs[2, 1].set_xlim(start, stop)
+    axs[2, 0].set_xlim(start, stop)
     axs[0, 1].set_xlim(start, stop)
     axs[1, 1].set_xlim(start, stop)
     axs[2, 1].set_xlim(start, stop)
@@ -126,7 +126,7 @@ def main(stdscr):
     # キャンバスの準備
     matplotlib.use("TkAgg")
     matplotlib.rcParams['font.family'] = ['IPAexGothic']
-    fig, axs = plt.subplots(3, 2, figsize=(14, 10))
+    fig, axs = plt.subplots(3, 2, figsize=(14, 8))
     plt.subplots_adjust(hspace=0.5)
 
     # 座標軸の設定

@@ -24,7 +24,7 @@ create table record
     LIQ1_T integer,
     LIQ1_P integer,
     LIQ2_T integer,
-    BOA_D  integer,
+    BOA1_D  integer,
     GRA_X  integer,
     GRA_Y  integer,
     GRA_Z  integer,

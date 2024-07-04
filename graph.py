@@ -34,83 +34,47 @@ def get_time_range():
 
 def update(engine, fig, axs, d_cfg):
     """ 描画の更新 """
-    # 描画パラメータ取得
+    # 時間軸の設定
     t0, start, stop, query = get_time_range()
-    axs[0, 0].set_xlim(start, stop)
-    axs[1, 0].set_xlim(start, stop)
-    axs[2, 0].set_xlim(start, stop)
-    axs[0, 1].set_xlim(start, stop)
-    axs[1, 1].set_xlim(start, stop)
-    axs[2, 1].set_xlim(start, stop)
+    for num in range(6):
+        axs[num].set_xlim(start, stop)
 
     # DB接続と解除
-    sqlcmd = "select * from record where TS > '%s'" % start.strftime("%Y-%m-%d %H:%M:%S")
+    sqlcmd = f'select * from record where TS > \'{start.strftime("%Y-%m-%d %H:%M:%S")}\''
     df = pd.read_sql(sqlcmd, con=engine)
     fig.suptitle("Drill Monitor [%s]" % t0.strftime("%F %H:%M:%S"))
 
-    lines = []
-    # プロット1 温度
-    line = [
-        axs[0, 0].plot(df.TS, df.BAT_T * d_cfg["BAT_T"][0] + d_cfg["BAT_T"][1], ".", label="BAT_T", color='g'),
-        axs[0, 0].plot(df.TS, df.SYS_T * d_cfg["SYS_T"][0] + d_cfg["SYS_T"][1], ".", label="SYS_T", color='r'),
-        axs[0, 0].plot(df.TS, df.SYS_H * d_cfg["SYS_H"][0] + d_cfg["SYS_H"][1], ".", label="SYS_H", color='b'),
-        axs[0, 0].plot(df.TS, df.MOT_T * d_cfg["MOT_T"][0] + d_cfg["MOT_T"][1], ".", label="MOT_T", color='y'),
-        axs[0, 0].plot(df.TS, df.GEA_T * d_cfg["GEA_T"][0] + d_cfg["GEA_T"][1], ".", label="GEA_T", color='m'),
-        axs[0, 0].plot(df.TS, df.LIQ1_T * d_cfg["LIQ1_T"][0] + d_cfg["LIQ1_T"][1], ".", label="LIQ1_T", color='m'),
-        axs[0, 0].plot(df.TS, df.LIQ2_T * d_cfg["LIQ2_T"][0] + d_cfg["LIQ2_T"][1], ".", label="LIQ2_T", color='m')
+    # プロット準備
+
+    colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+    labels_a = [
+        ['BAT_T', 'SYS_T', 'SYS_H', 'MOT_T', 'GEA_T', 'LIQ1_T', 'LIQ2_T'],
+        ['PDU_V', 'BAT_V', 'MOT_V'],
+        ['MOT_R', 'GND_P'],
+        ['GRA_X', 'GRA_Y', 'GRA_Z'],
+        ['ROT_X', 'ROT_Y', 'ROT_Z'],
+        ['MAG_X', 'MAG_Y', 'MAG_Z']
     ]
-    axs[0, 0].legend(loc='lower left')
-    lines.append(line)
+
+    # プロット1 温度
+    lines = [] #消去用
+    np = 0
+    for labels in labels_a:
+        nc=0
+        for lb in labels:
+            [a, b] = [d_cfg[lb][0], d_cfg[lb][1]]
+            val = (df[lb] * a + b) * 10 if lb == 'BAT_V' else df[lb] * a + b
+            lbs = "BAT_V*10" if lb == 'BAT_V' else lb
+            lines.append(axs[np].plot(df['TS'], val , ".", label=lbs, color=colors[nc]), )
+            nc += 1
+        axs[np].legend(loc='lower left')
+        np += 1
 
     # プロット2 電力
-    line = [
-        axs[1, 0].plot(df.TS, df.PDU_V * d_cfg["PDU_V"][0] + d_cfg["PDU_V"][1], ".", label="PDU_V", color='g'),
-        axs[1, 0].plot(df.TS, df.BAT_V * d_cfg["BAT_V"][0] + d_cfg["BAT_V"][1], ".", label="BAT_V", color='r'),
-        axs[1, 0].plot(df.TS, df.MOT_V * d_cfg["MOT_V"][0] + d_cfg["MOT_V"][1], ".", label="MOT_V", color='b')
-    ]
-    axs[1, 0].legend(loc='lower left')
-    lines.append(line)
-
-    # プロット3 掘削ステータス
-    line = [
-        axs[2, 0].plot(df.TS, df.MOT_R * d_cfg["MOT_R"][0] + d_cfg["MOT_R"][1], ".", label="MOT_R", color='g'),
-        axs[2, 0].plot(df.TS, df.GND_P * d_cfg["GND_P"][0] + d_cfg["GND_P"][1], ".", label="GND_P", color='r'),
-    ]
-    axs[2, 0].legend(loc='lower left')
-    lines.append(line)
-
-    # プロット4 重力
-    line = [
-        axs[0, 1].plot(df.TS, df.GRA_X * d_cfg["GRA_X"][0] + d_cfg["GRA_X"][1], ".", label="GRA_X", color='g'),
-        axs[0, 1].plot(df.TS, df.GRA_Y * d_cfg["GRA_Y"][0] + d_cfg["GRA_Y"][1], ".", label="GRA_Y", color='r'),
-        axs[0, 1].plot(df.TS, df.GRA_Z * d_cfg["GRA_Z"][0] + d_cfg["GRA_Z"][1],".", label="GRA_Z", color='b')
-    ]
-    axs[0, 1].legend(loc='lower left')
-    lines.append(line)
-
-    # プロット4 角速度
-    line = [
-        axs[1, 1].plot(df.TS, df.ROT_X * d_cfg["ROT_X"][0] + d_cfg["ROT_X"][1], ".", label="ROT_X", color='g'),
-        axs[1, 1].plot(df.TS, df.ROT_Y * d_cfg["ROT_Y"][0] + d_cfg["ROT_Y"][1], ".", label="ROT_Y", color='r'),
-        axs[1, 1].plot(df.TS, df.ROT_Z * d_cfg["ROT_Z"][0] + d_cfg["ROT_Z"][1], ".", label="ROT_Z", color='b')
-    ]
-    axs[1, 1].legend(loc='lower left')
-    lines.append(line)
-
-    # プロット4 地磁気
-    line = [
-        axs[2, 1].plot(df.TS, df.MAG_X * d_cfg["MAG_X"][0] + d_cfg["MAG_X"][1], ".", label="MAG_X", color='g'),
-        axs[2, 1].plot(df.TS, df.MAG_Y * d_cfg["MAG_Y"][0] + d_cfg["MAG_Y"][1], ".", label="MAG_Y", color='r'),
-        axs[2, 1].plot(df.TS, df.MAG_Z * d_cfg["MAG_Z"][0] + d_cfg["MAG_Z"][1], ".", label="MAG_Z", color='b')
-    ]
-    axs[2, 1].legend(loc='lower left')
-    lines.append(line)
-
     # 後始末
     plt.pause(1)
-    for lls in lines:
-        for ll in lls:
-            ll[0].remove()
+    for ll in lines:
+        ll[0].remove()
 
 
 def main(stdscr):
@@ -130,40 +94,28 @@ def main(stdscr):
     # キャンバスの準備
     matplotlib.use("TkAgg")
     matplotlib.rcParams['font.family'] = ['IPAexGothic']
-    fig, axs = plt.subplots(3, 2, figsize=(14, 8))
+    fig, axA = plt.subplots(3, 2, figsize=(14, 8))
     plt.subplots_adjust(hspace=0.5)
+    axs = []
+    for col in range(2):
+        for row in range(3):
+            axs.append(axA[row, col])
 
     # 座標軸の設定
-    axs[0, 0].set_title("Temperature")
-    axs[0, 0].xaxis.set_major_formatter(dates.DateFormatter('%m/%d\n%H:%M'))
-    axs[0, 0].set_ylabel("Temperature (C)")
-    axs[0, 0].set_ylim(-60, 60)
-    axs[0, 0].grid()
-    axs[1, 0].set_title("Power Supply")
-    axs[1, 0].xaxis.set_major_formatter(dates.DateFormatter('%m/%d\n%H:%M'))
-    axs[1, 0].set_ylabel("Power Supply (V)")
-    axs[1, 0].set_ylim(0, 240)
-    axs[1, 0].grid()
-    axs[2, 0].set_title("Drill Status")
-    axs[2, 0].xaxis.set_major_formatter(dates.DateFormatter('%m/%d\n%H:%M'))
-    axs[2, 0].set_ylabel("Ground Pressure (kgw)")
-    axs[2, 0].set_ylim(-50, 50)
-    axs[2, 0].grid()
-    axs[0, 1].set_title("Gravity")
-    axs[0, 1].xaxis.set_major_formatter(dates.DateFormatter('%m/%d\n%H:%M'))
-    axs[0, 1].set_ylabel("Gravity (m/s^2)")
-    axs[0, 1].set_ylim(-20, 20)
-    axs[0, 1].grid()
-    axs[1, 1].set_title("ROT")
-    axs[1, 1].xaxis.set_major_formatter(dates.DateFormatter('%m/%d\n%H:%M'))
-    axs[1, 1].set_ylabel("Angular speed (deg/s)")
-    axs[1, 1].set_ylim(-100, 100)
-    axs[1, 1].grid()
-    axs[2, 1].set_title("GEO MAG")
-    axs[2, 1].xaxis.set_major_formatter(dates.DateFormatter('%m/%d\n%H:%M'))
-    axs[2, 1].set_ylabel("Geo MAG (mT)")
-    axs[2, 1].set_ylim(-200, 200)
-    axs[2, 1].grid()
+    params = [
+        ["Temperature","Temperature (C)",[-60,60]],
+        ["Power Supply", "Power Supply (V)", [0, 240]],
+        ["Drill Status", "Ground Pressure (kgw)", [-50, 50]],
+        ["Gravity", "Gravity (m/s^2)", [-20, 20]],
+        ["ROT", "Angular speed (deg/s)", [-60, 60]],
+        ["GEO MAG", "Geo MAG (mT)", [-200, 200]],
+    ]
+    for i in range(len(params)):
+        axs[i].set_title(params[i][0])
+        axs[i].xaxis.set_major_formatter(dates.DateFormatter('%m/%d\n%H:%M'))
+        axs[i].set_ylabel(params[i][1])
+        axs[i].set_ylim(params[i][2])
+        axs[i].grid()
 
     # データ描画
     while True:

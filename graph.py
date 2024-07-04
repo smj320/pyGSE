@@ -63,8 +63,10 @@ def update(engine, fig, axs, d_cfg):
         nc = 0
         for lb in labels:
             [a, b] = [d_cfg[lb][0], d_cfg[lb][1]]
+            # BAT_Vだけ10倍に拡大
             val = (df[lb] * a + b) * 10 if lb == 'BAT_V' else df[lb] * a + b
             lbs = "BAT_V*10" if lb == 'BAT_V' else lb
+            # 表示
             lines.append(axs[np].plot(df['TS'], val, ".", label=lbs, color=colors[nc]), )
             nc += 1
         axs[np].legend(loc='lower left')

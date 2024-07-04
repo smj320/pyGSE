@@ -57,15 +57,15 @@ def update(engine, fig, axs, d_cfg):
     ]
 
     # プロット1 温度
-    lines = [] #消去用
+    lines = []  # 消去用
     np = 0
     for labels in labels_a:
-        nc=0
+        nc = 0
         for lb in labels:
             [a, b] = [d_cfg[lb][0], d_cfg[lb][1]]
             val = (df[lb] * a + b) * 10 if lb == 'BAT_V' else df[lb] * a + b
             lbs = "BAT_V*10" if lb == 'BAT_V' else lb
-            lines.append(axs[np].plot(df['TS'], val , ".", label=lbs, color=colors[nc]), )
+            lines.append(axs[np].plot(df['TS'], val, ".", label=lbs, color=colors[nc]), )
             nc += 1
         axs[np].legend(loc='lower left')
         np += 1
@@ -89,21 +89,21 @@ def main(stdscr):
     curses.cbreak()
     stdscr.keypad(True)
     stdscr.nodelay(True)
-    stdscr.addstr(1, 1, "GSE Graphic running... [stop ESC]")
+    stdscr.addstr(1, 1, " DRILL MONITOR Graph running... (Exit: ESC key)")
 
     # キャンバスの準備
     matplotlib.use("TkAgg")
     matplotlib.rcParams['font.family'] = ['IPAexGothic']
-    fig, axA = plt.subplots(3, 2, figsize=(14, 8))
+    fig, axs_a = plt.subplots(3, 2, figsize=(14, 8))
     plt.subplots_adjust(hspace=0.5)
     axs = []
     for col in range(2):
         for row in range(3):
-            axs.append(axA[row, col])
+            axs.append(axs_a[row, col])
 
     # 座標軸の設定
-    params = [
-        ["Temperature","Temperature (C)",[-60,60]],
+    params = [  # Title, Yラベル, Y範囲
+        ["Temperature", "Temperature (C)", [-60, 60]],
         ["Power Supply", "Power Supply (V)", [0, 240]],
         ["Drill Status", "Ground Pressure (kgw)\nMotor Speed (rpm)", [-50, 50]],
         ["Gravity", "Gravity (m/s^2)", [-20, 20]],

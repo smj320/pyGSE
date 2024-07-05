@@ -108,7 +108,7 @@ def main(stdscr):
         ["Temperature", "Temperature (C)", [-60, 60]],
         ["Power Supply", "Power Supply (V)", [0, 240]],
         ["Drill Status", "Ground Pressure (kgw)\nMotor Speed (rpm)", [-50, 50]],
-        ["Gravity", "Gravity (m/s^2)", [-20, 20]],
+        ["Gravity", "Gravity (u/s^2)", [-20, 20]],
         ["ROT", "Angular speed (deg/s)", [-60, 60]],
         ["GEO MAG", "Geo MAG (mT)", [-200, 200]],
     ]

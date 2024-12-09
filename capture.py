@@ -1,7 +1,7 @@
 from datetime import datetime
 import config
 import curses
-import mysql.connector as mydb
+import mysql.connector
 import serial
 from serial.tools import list_ports
 import os
@@ -10,7 +10,7 @@ import os
 def write_db(dbconfig, values):
     """ DBに書き込む.DBの型はdatetime(6)でmicro secまで指定する """
     # 接続と実行
-    conn = mydb.connect(**dbconfig)
+    conn = mysql.connector.connect(**dbconfig)
     if not conn.is_connected():
         raise Exception("MySQLサーバへの接続に失敗しました")
 
@@ -113,7 +113,7 @@ def main(stdscr):
         c = reader.read()
 
         # FIFOにデータを詰める
-        fifo.append(int.from_bytes(c))
+        fifo.append(int.from_bytes(c, "little"))
         fifo.pop(0)
 
         # 先頭がフレームシンクに一致していれば同期完了

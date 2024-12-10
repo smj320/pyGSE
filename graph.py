@@ -94,7 +94,10 @@ def main(stdscr):
     stdscr.addstr(1, 1, " DRILL MONITOR Graph running... (Exit: ESC key)")
 
     # キャンバスの準備
-    matplotlib.use("TkAgg")
+    # matplotlib.use("TkAgg")
+    matplotlib.use("macosx")
+    # matplotlib.use("qt5agg")
+
     matplotlib.rcParams['font.family'] = ['IPAexGothic']
     fig, axs_a = plt.subplots(3, 2, figsize=(14, 8))
     plt.subplots_adjust(hspace=0.5)

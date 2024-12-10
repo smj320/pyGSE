@@ -1,0 +1,42 @@
+/Users/kikuchi/.pyenv/shims:
+/Users/kikuchi/.local/bin
+
+/opt/homebrew/bin:
+/opt/homebrew/sbin:
+/opt/homebrew/opt/mysql@5.7/bin:
+/Users/kikuchi/.local/bin: <---
+/Users/kikuchi/Documents/bin:
+/usr/local/opt/sqlite/bin:
+/usr/local/Cellar/libpq/14.3/bin/psql:  <---
+/usr/local/opt/postgresql@10/bin: <---
+/usr/local/opt/icu4c/sbin:  <---
+/usr/local/opt/icu4c/bin: <---
+/usr/local/opt/openjdk/bin:  <---
+/usr/local/opt/mysql@5.7/bin:  <---
+/Applications/ti/xdctools_3_61_02_27_core:   <---
+/usr/local/opt/ncurses/bin:  <---
+/usr/local/opt/openssl@3/bin:  <---
+/usr/local/opt/m4/bin:  <---
+/usr/local/opt/libxml2/bin:  <---
+
+/opt/local/bin:
+/opt/local/sbin:
+/usr/local/bin:
+/System/Cryptexes/App/usr/bin:
+/usr/bin:
+/bin:
+/usr/sbin:
+/sbin:
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:
+/Library/Apple/usr/bin:
+/Library/TeX/texbin:
+/Applications/Wireshark.app/Contents/MacOS:
+/Applications/VMware Fusion.app/Contents/Public:
+/usr/local/share/dotnet:~/.dotnet/tools:
+/Applications/microchip/xc8/v2.40/bin:
+/Applications/microchip/xc32/v4.21/bin:
+/usr/local/texlive/2022/bin/universal-darwin:
+
+

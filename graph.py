@@ -8,6 +8,7 @@ import datetime as dt
 # DB
 import pandas as pd
 from sqlalchemy import create_engine
+from sqlalchemy import text
 # プロット
 import matplotlib
 from matplotlib import dates
@@ -41,7 +42,7 @@ def update(engine, fig, axs, d_cfg):
 
     # DB接続と解除
     sqlcmd = f'select * from record where TS > \'{start.strftime("%Y-%m-%d %H:%M:%S")}\''
-    df = pd.read_sql(sqlcmd, con=engine)
+    df = pd.DataFrame(engine.connect().execute(text(sqlcmd)))
     fig.suptitle("Drill Monitor [%s]" % t0.strftime("%F %H:%M:%S"))
 
     # プロット準備

@@ -1,4 +1,4 @@
 #!/bin/zsh
 source .venv/bin/activate
-python main.py
+python capture.py
 deactivate

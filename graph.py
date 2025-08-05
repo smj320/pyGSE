@@ -97,6 +97,7 @@ def main(stdscr):
     # キャンバスの準備
     # macはデフォルトの/usr/bin/python3でないと色々失敗する。
     matplotlib.use("TkAgg")
+    # matplotlib.use("macosx")
 
     matplotlib.rcParams['font.family'] = ['IPAexGothic']
     fig, axs_a = plt.subplots(3, 2, figsize=(14, 8))
